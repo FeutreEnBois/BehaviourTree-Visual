@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
+using System;
 
 public class BehaviourTreeView : GraphView
 {
@@ -19,5 +20,10 @@ public class BehaviourTreeView : GraphView
 
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/BehaviourTreeEditor.uss");
         styleSheets.Add(styleSheet);
+    }
+
+    internal void PopulateView(BehaviourTree tree)
+    {
+        throw new NotImplementedException();
     }
 }
