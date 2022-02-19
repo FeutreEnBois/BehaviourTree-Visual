@@ -9,7 +9,7 @@ public class BehaviourTreeEditor : EditorWindow
     BehaviourTreeView treeView;
     InspectorView inspectorView;
 
-    [MenuItem("BehaviourTreeEditor/Editor ...")]
+    [MenuItem("BehaviourTreeEditor/Scripts/Editor ...")]
     public static void OpenWindow()
     {
         BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
@@ -22,16 +22,17 @@ public class BehaviourTreeEditor : EditorWindow
         VisualElement root = rootVisualElement;
 
         // Import UXML
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/BehaviourTreeEditor.uxml");
+        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/Editor/BehaviourTreeEditor.uxml");
         visualTree.CloneTree(root);
         
 
         // A stylesheet can be added to a VisualElement.
         // The style will be applied to the VisualElement and all of its children.
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/BehaviourTreeEditor.uss");
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/Editor/BehaviourTreeEditor.uss");
         root.styleSheets.Add(styleSheet);
 
         treeView = root.Q<BehaviourTreeView>();
+        treeView.OnNodeSelected = OnNodeSelectionChanged;
         inspectorView = root.Q<InspectorView>();
         
         OnSelectionChange();
@@ -44,5 +45,10 @@ public class BehaviourTreeEditor : EditorWindow
         {
             treeView.PopulateView(tree);
         }
+    }
+
+    void OnNodeSelectionChanged(NodeView node)
+    {
+        inspectorView.UpdateSelection(node);
     }
 }
